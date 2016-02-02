@@ -1,0 +1,12 @@
+[Unit]
+Description=Etcd Server
+After=network.target
+
+[Service]
+ExecStart=/bin/runc
+Restart=on-failure
+WorkingDirectory=/var/runc/etcd
+
+[Install]
+WantedBy=multi-user.target
+

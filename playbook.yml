@@ -1,0 +1,67 @@
+- name: copy files
+  hosts: '{{ hosts | default("all") }}'
+  sudo: yes
+  tasks:
+    - copy: src=git dest=/root/flannel_etcd_containerized/
+    - copy: src=etcd dest=/root/flannel_etcd_containerized/
+    - copy: src=flannel dest=/root/flannel_etcd_containerized/
+
+    - name: build git image
+      docker_image: path="/root/flannel_etcd_containerized/git" name="git" state=present
+
+    - name: fetch etcd-container
+      command: docker run -v /root/flannel_etcd_containerized/etcd:/dest:Z git sh -c "cd /dest; git clone https://github.com/giuseppe/etcd-container.git"
+      args:
+        creates: /root/flannel_etcd_containerized/etcd/etcd-container
+
+    - name: build etcd-container
+      docker_image: path="/root/flannel_etcd_containerized/etcd/etcd-container" name="etcd" state=present
+
+    - file: path=/var/runc/etcd/rootfs state=directory
+    - name: start etcd-container
+      docker:
+        name: etcd-build
+        image: etcd
+        state: started
+
+    - name: export etcd-container
+      command: sh -c "docker export etcd-build | tar x"
+      args:
+        chdir: /var/runc/etcd/rootfs
+        creates: /var/runc/etcd/rootfs/bin
+
+    - name: stop etcd-container
+      docker:
+        name: etcd-build
+        image: etcd
+        state: absent
+
+    - name: build flannel-container
+      docker_image: path="/root/flannel_etcd_containerized/flannel/flannel-container" name="flannel" state=present
+
+    - file: path=/var/runc/flannel/rootfs state=directory
+    - name: start flannel-container
+      docker:
+        name: flannel-build
+        image: flannel
+        state: started
+
+    - name: export flannel-container
+      command: sh -c "docker export flannel-build | tar x"
+      args:
+        chdir: /var/runc/flannel/rootfs
+        creates: /var/runc/flannel/rootfs/bin
+
+    - name: stop flannel-container
+      docker:
+        name: flannel-build
+        image: flannel
+        state: absent
+
+    - copy: src=flannel/flannel-early.service dest=/usr/local/lib/systemd/system/
+    - copy: src=etcd/etcd-early.service dest=/usr/local/lib/systemd/system/
+
+    - name: start etcd service
+      service: name=etcd-early state=started
+    - name: start flannel service
+      service: name=flannel-early state=started

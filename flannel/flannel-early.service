@@ -1,0 +1,12 @@
+[Unit]
+Description=Flanneld Server
+After=etcd-early.target
+
+[Service]
+ExecStart=/bin/runc
+Restart=on-failure
+WorkingDirectory=/var/runc/flannel
+
+[Install]
+WantedBy=multi-user.target
+
