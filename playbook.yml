@@ -10,7 +10,7 @@
       docker_image: path="/root/flannel_etcd_containerized/git" name="git" state=present
 
     - name: fetch etcd-container
-      command: docker run -v /root/flannel_etcd_containerized/etcd:/dest:Z git sh -c "cd /dest; git clone https://github.com/giuseppe/etcd-container.git"
+      command: docker run -v /root/flannel_etcd_containerized/etcd:/dest:Z git sh -c "cd /dest; git clone https://github.com/aveshagarwal/etcd-container.git"
       args:
         creates: /root/flannel_etcd_containerized/etcd/etcd-container
 
