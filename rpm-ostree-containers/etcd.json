@@ -1,0 +1,7 @@
+{
+    "ref": "fedora-atomic/f23/x86_64/etcd",
+    "repos": ["fedora-23"],
+    "container": true,
+    "packages": ["etcd"]
+}
+

@@ -1,4 +1,4 @@
-- name: copy files
+- name: docker
   hosts: '{{ hosts | default("all") }}'
   sudo: yes
   tasks:
@@ -58,10 +58,4 @@
         image: flannel
         state: absent
 
-    - copy: src=flannel/flannel-early.service dest=/usr/local/lib/systemd/system/
-    - copy: src=etcd/etcd-early.service dest=/usr/local/lib/systemd/system/
-
-    - name: start etcd service
-      service: name=etcd-early state=started
-    - name: start flannel service
-      service: name=flannel-early state=started
+    - include: start-services.yml
