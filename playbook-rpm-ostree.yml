@@ -23,11 +23,17 @@
       args:
         chdir: /root/flannel_etcd_containerized/rpm-ostree-containers
 
+    - file: path=/var/runc/etcd/rootfs
+      args:
+        state: directory
     - name: export etcd-container
       command: ostree checkout --repo=/var/runc/ostree-repo fedora-atomic/f23/x86_64/etcd /var/runc/etcd/rootfs
       args:
         creates: /var/runc/etcd/rootfs
 
+    - file: path=/var/runc/flannel/rootfs
+      args:
+        state: directory
     - name: export flannel-container
       command: ostree checkout --repo=/var/runc/ostree-repo fedora-atomic/f23/x86_64/flannel /var/runc/flannel/rootfs
       args:
