@@ -1,6 +1,7 @@
 [Unit]
 Description=Flanneld Server
-After=etcd-early.target
+Requires=etcd-early.service
+After=etcd-early.service
 
 [Service]
 ExecStart=/bin/runc
