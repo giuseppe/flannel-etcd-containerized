@@ -2,8 +2,12 @@
   hosts: '{{ hosts | default("all") }}'
   sudo: yes
   tasks:
-    - copy: src=etcd dest=/root/flannel_etcd_containerized/
-    - copy: src=flannel dest=/root/flannel_etcd_containerized/
+    - synchronize: src=etcd dest=/root/flannel_etcd_containerized/
+      args:
+        set_remote_user: no
+    - synchronize: src=flannel dest=/root/flannel_etcd_containerized/
+      args:
+        set_remote_user: no
 
     - name: build etcd-container
       docker_image: path="/root/flannel_etcd_containerized/etcd/etcd-container" name="etcd" state=present
