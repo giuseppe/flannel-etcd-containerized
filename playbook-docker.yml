@@ -2,17 +2,8 @@
   hosts: '{{ hosts | default("all") }}'
   sudo: yes
   tasks:
-    - copy: src=git dest=/root/flannel_etcd_containerized/
     - copy: src=etcd dest=/root/flannel_etcd_containerized/
     - copy: src=flannel dest=/root/flannel_etcd_containerized/
-
-    - name: build git image
-      docker_image: path="/root/flannel_etcd_containerized/git" name="git" state=present
-
-    - name: fetch etcd-container
-      command: docker run -v /root/flannel_etcd_containerized/etcd:/dest:Z git sh -c "cd /dest; git clone https://github.com/giuseppe/etcd-container.git"
-      args:
-        creates: /root/flannel_etcd_containerized/etcd/etcd-container
 
     - name: build etcd-container
       docker_image: path="/root/flannel_etcd_containerized/etcd/etcd-container" name="etcd" state=present
