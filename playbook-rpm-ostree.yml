@@ -4,6 +4,10 @@
   tasks:
     - copy: src=rpm-ostree-containers dest=/root/flannel_etcd_containerized/
 
+    - file: path=/var/runc
+      args:
+        state: directory
+
     - name: create ostree repo
       command: ostree --repo=/var/runc/ostree-repo init --mode=bare
       args:
