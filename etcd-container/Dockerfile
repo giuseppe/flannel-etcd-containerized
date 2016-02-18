@@ -1,0 +1,16 @@
+FROM fedora
+
+MAINTAINER Avesh Agarwal <avagarwa@redhat.com>
+
+ENV container=docker
+
+RUN dnf -y install etcd hostname && \
+    dnf clean all
+
+ADD etcd_container_template.service /etc/systemd/system/etcd_container_template.service
+ADD etcd-env.sh /usr/bin/etcd-env.sh
+ADD install.sh  /usr/bin/install.sh
+ADD uninstall.sh /usr/bin/uninstall.sh
+
+ADD service.template /exports/service.template
+ADD config.json /exports/config.json

@@ -1,7 +1,0 @@
-{
-    "ref": "fedora-atomic/f23/x86_64/flannel",
-    "repos": ["fedora-23"],
-    "container": true,
-    "packages": ["flannel"]
-}
-

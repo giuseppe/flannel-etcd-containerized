@@ -3,9 +3,9 @@ Description=Etcd Server
 After=network.target
 
 [Service]
-ExecStart=/bin/runc
+ExecStart=/bin/runc --id etcd
 Restart=on-failure
-WorkingDirectory=/var/runc/etcd
+WorkingDirectory=$DEST
 
 [Install]
 WantedBy=multi-user.target
