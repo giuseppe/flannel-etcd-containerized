@@ -14,3 +14,5 @@ ADD uninstall.sh /usr/bin/uninstall.sh
 
 ADD service.template /exports/service.template
 ADD config.json /exports/config.json
+
+CMD ["/usr/bin/etcd-env.sh", "/usr/bin/etcd"]

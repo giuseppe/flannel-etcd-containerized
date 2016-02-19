@@ -3,9 +3,9 @@ Description=Etcd Server
 After=network.target
 
 [Service]
-ExecStart=/bin/runc --id etcd
+ExecStart=/bin/runc --id $NAME
 Restart=on-failure
-WorkingDirectory=$DEST
+WorkingDirectory=$DESTDIR
 
 [Install]
 WantedBy=multi-user.target
