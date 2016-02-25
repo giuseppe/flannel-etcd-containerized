@@ -1,6 +1,6 @@
 FROM fedora
 
-MAINTAINER Avesh Agarwal <avagarwa@redhat.com>
+MAINTAINER Giuseppe Scrivano <gscrivan@redhat.com>
 
 ENV container=docker
 
